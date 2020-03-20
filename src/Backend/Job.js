@@ -3,6 +3,7 @@ let bodyParser = require('body-parser');
 let router = express.Router();
 let cors = require('cors');
 let app = express();
+const {isPasswordCorrect} = require('./Login')
 const bcrypt = require('bcryptjs')
 app.use(cors());
 // all of our routes will be prefixed with /api
@@ -16,12 +17,11 @@ let jobs = [{'id':0,'position': 'Frontend developer','respon':'React Hooks + CSS
 ];
 
 const myFunction = async () => {
-    const password = '12345'
-    const hashPedPassword = await bcrypt.hash(password, 8)
-    console.log(password)
-    console.log(hashPedPassword)
-    const isMatch = await bcrypt.compare('12345',hashPedPassword)
-    console.log(isMatch)
+   const result = isPasswordCorrect(12345)
+   if(!result){
+    throw new Error('password is not correct please try again')
+   }
+   console.log('res', result)
 }
 router.route('/jobs').get((req, res) =>  res.json(jobs) );
 app.use("*", (req,res) => res.status(404).send('404 Not found') );
