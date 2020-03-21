@@ -3,9 +3,11 @@ let bodyParser = require('body-parser');
 let router = express.Router();
 let cors = require('cors');
 let app = express();
-const {isPasswordCorrect} = require('./Login')
-const bcrypt = require('bcryptjs')
+const path = require('path');
+const {isPasswordCorrect} = require('./Login');
+const bcrypt = require('bcryptjs');
 app.use(cors());
+app.use('/', express.static(path.join(__dirname, 'Fontend', 'build')))
 // all of our routes will be prefixed with /api
 app.use('/api', bodyParser.json(), router);   //[use json]
 app.use('/api', bodyParser.urlencoded({ extended: false }), router);
@@ -24,5 +26,8 @@ const myFunction = async () => {
    console.log('res', result)
 }
 router.route('/jobs').get((req, res) =>  res.json(jobs) );
+app.use('/', (req, res) => {
+   res.sendFile(path.join(__dirname, 'Fontend', 'build', 'index.html'));
+})
 app.use("*", (req,res) => res.status(404).send('404 Not found') );
-app.listen(80,  () => console.log("Server is running") );
+app.listen(4000,  () => console.log("Server is running") );
