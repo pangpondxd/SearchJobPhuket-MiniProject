@@ -1,39 +1,48 @@
-import React, {useState, useEffect} from 'react'
-import axios from 'axios'
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 const Login = props => {
-    const [email,setEmail] = useState('')
-    const [password, setPassword] = useState('')
+  const [loginFormParams, setLoginFormParam] = useState({
+    email: "",
+    password: ""
+  });
 
-    const getUser = async () => {
-        await axios.post('http://localhost:3000/users/', params);
-        setEmail(email)
-        setPassword(password)
-    }
-    useEffect(() => {
-        getUser()
-    }, [])
-  
-    return(
-        <div className="Login">
-            <h1>Login Component</h1>
-            <form  method="post" action="/api/users/login">
-            Email: <input 
-            className="input"
-            type="email" 
-            name="input" 
-            value={email}
-            onChange={(e)=>setEmail(e.target.value)}
-            />
-            Password: <input 
-            className="input"
-            type="password" 
-            name="password" 
-            value= {password}
-            onChange= {(e)=> setPassword(e.target.value)}
-            />
-            <button type="submit" onClick="">login</button>
-            </form>
-        </div>
-    )
-}
-export default Login
+  const handleChange = event => {
+    setLoginFormParam({
+      ...loginFormParams,
+      [event.target.name]: event.target.value
+    });
+  };
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    axios.post("http://localhost/users/login", loginFormParams).then(res => {
+      console.log("ress", res);
+    });
+  };
+
+  return (
+    <div className="Login">
+      <h1>Login Component</h1>
+      <form method="post" onSubmit={handleSubmit}>
+        Email:{" "}
+        <input
+          className="input"
+          type="email"
+          name="email"
+          value={loginFormParams.email}
+          onChange={handleChange}
+        />
+        Password:{" "}
+        <input
+          className="input"
+          type="password"
+          name="password"
+          value={loginFormParams.password}
+          onChange={e => handleChange(e)}
+        />
+        <button type="submit">login</button>
+      </form>
+    </div>
+  );
+};
+export default Login;
