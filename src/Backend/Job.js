@@ -6,8 +6,18 @@ let app = express();
 require('./task-manager/src/db/mongoose')
 const taskRouter = require('./task-manager/src/routers/task')
 const userRouter = require('./task-manager/src/routers/user')
+const Task = require('./task-manager/src/models/task')
+const User = require('./task-manager/src/models/user')
 
 app.use(cors());
+
+
+   // resave => Forces the session to be saved back to the session store, even if the session was never modified 
+   // saveUninitialized => the cookie will not be set on a response with an uninitialized session
+
+
+
+
 // all of our routes will be prefixed with /api
 
 // app.use((req, res, next) => {
@@ -45,8 +55,7 @@ router.route('/jobs').get((req, res) =>  res.json(jobs) );
 app.use("*", (req,res) => res.status(404).send('404 Not found') );
 app.listen(80,  () => console.log("Server is running") );
 
-const Task = require('./task-manager/src/models/task')
-const User = require('./task-manager/src/models/user')
+
 const main = async () => {
    // const task = await Task.findById('5e7704356ab0dc31197525a7')
    // await task.populate('owner').execPopulate()

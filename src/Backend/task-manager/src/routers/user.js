@@ -32,6 +32,7 @@ router.post('/users', async (req,res) => {
         const user = await User.findByCredentials(req.body.email, req.body.password)
         const token = await user.generateAuthToken()
         res.send({user, token})
+        res.cookie('JobSearchPhuket-Token', '1', { expires: new Date(Date.now() + 900000), httpOnly: true });
      }
      catch(e) {
         res.status(400).send(e)

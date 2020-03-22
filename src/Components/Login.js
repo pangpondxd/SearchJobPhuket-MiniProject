@@ -5,7 +5,9 @@ const Login = props => {
     email: "",
     password: ""
   });
-
+  const [email,setEmail] = useState('')
+  const [name, setName] = useState('')
+  let [auth, setAuth] = useState(0)
   const handleChange = event => {
     setLoginFormParam({
       ...loginFormParams,
@@ -16,14 +18,20 @@ const Login = props => {
   const handleSubmit = e => {
     e.preventDefault();
     axios.post("http://localhost/users/login", loginFormParams).then(res => {
-      console.log("ress", res);
+    const {name} = res.data.user
+    setAuth(1)
+    setName(name)
+    console.log(res)
+    console.log(name)
     });
   };
 
   return (
     <div className="Login">
+      {auth === 1 ? 'Welcome : ' + name : 'Please login'}
+      
       <h1>Login Component</h1>
-      <form method="post" onSubmit={handleSubmit}>
+      <form method="POST" onSubmit={handleSubmit} action="/users/me">
         Email:{" "}
         <input
           className="input"
