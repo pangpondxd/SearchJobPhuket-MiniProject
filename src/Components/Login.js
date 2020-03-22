@@ -1,16 +1,22 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import axios from 'axios'
 const Login = props => {
     const [email,setEmail] = useState('')
     const [password, setPassword] = useState('')
 
-    const getJobs = async () => {
-        const result = await axios.get(`http://localhost/users`)
+    const getUser = async () => {
+        await axios.post('http://localhost:3000/users/', params);
+        setEmail(email)
+        setPassword(password)
     }
+    useEffect(() => {
+        getUser()
+    }, [])
   
     return(
         <div className="Login">
             <h1>Login Component</h1>
+            <form  method="post" action="/api/users/login">
             Email: <input 
             className="input"
             type="email" 
@@ -26,6 +32,7 @@ const Login = props => {
             onChange= {(e)=> setPassword(e.target.value)}
             />
             <button type="submit" onClick="">login</button>
+            </form>
         </div>
     )
 }
