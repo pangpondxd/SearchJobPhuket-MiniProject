@@ -22,7 +22,7 @@ const Login = props => {
 
   return (
     <div className="Login">
-      <h1>Login Component</h1>
+      <h1>Loginx Component</h1>
       <form method="post" onSubmit={handleSubmit}>
         Email:{" "}
         <input
